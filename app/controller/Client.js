@@ -135,4 +135,54 @@ class Client {
     }
   };
 }
+
+// app/controller/downloader.js 或相关文件
+// app/controller/downloader.js 或相关文件
+// app/controller/downloader.js 或相关文件
+// app/controller/downloader.js 或相关文件
+
+// 添加新的API端点来获取所有下载器的总速度
+async getTotalSpeed() {
+  const { ctx } = this;
+  try {
+    const downloaders = await ctx.service.downloader.getAll();
+    let totalDownloadSpeed = 0;
+    let totalUploadSpeed = 0;
+    
+    for (const downloader of downloaders) {
+      if (downloader.connected) {
+        const stats = await ctx.service.downloader.getStats(downloader.id);
+        totalDownloadSpeed += stats.downloadSpeed || 0;
+        totalUploadSpeed += stats.uploadSpeed || 0;
+      }
+    }
+    
+    ctx.body = {
+      success: true,
+      data: {
+        totalDownloadSpeed,
+        totalUploadSpeed,
+        downloadSpeedFormatted: this.formatSpeed(totalDownloadSpeed),
+        uploadSpeedFormatted: this.formatSpeed(totalUploadSpeed)
+      }
+    };
+  } catch (error) {
+    ctx.body = { success: false, error: error.message };
+  }
+}
+
+// 格式化速度显示
+formatSpeed(bytesPerSecond) {
+  const units = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
+  let speed = bytesPerSecond;
+  let unitIndex = 0;
+  
+  while (speed >= 1024 && unitIndex < units.length - 1) {
+    speed /= 1024;
+    unitIndex++;
+  }
+  
+  return `${speed.toFixed(2)} ${units[unitIndex]}`;
+}
+
 module.exports = Client;
