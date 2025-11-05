@@ -291,8 +291,8 @@ module.exports = function (app, express, router) {
   // app/routes/downloader.js
   // app/routes/downloader.js
   // app/routes/downloader.js
-  router.get('/total-speed', controller.downloader.getTotalSpeed);
-  router.get('/all-stats', controller.downloader.getAllStats);
+  router.get('/total-speed', controller.Client.getTotalSpeed);
+  router.get('/all-stats', controller.Client.getAllStats);
 
 
   
