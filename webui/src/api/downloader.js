@@ -22,3 +22,23 @@ export default {
     return await get(url);
   }
 };
+
+
+
+// webui/src/api/downloader.js
+// webui/src/api/downloader.js
+// webui/src/api/downloader.js
+
+export function getTotalSpeed() {
+  return request({
+    url: '/api/downloader/total-speed',
+    method: 'get'
+  });
+}
+
+export function getAllDownloaderStats() {
+  return request({
+    url: '/api/downloader/all-stats',
+    method: 'get'
+  });
+}
