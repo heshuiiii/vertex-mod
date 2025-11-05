@@ -620,4 +620,86 @@ class Client {
     return [];
   }
 }
+
+
+// app/service/downloader.js
+
+async getAllSpeedStats() {
+  const downloaders = await this.getAll();
+  const speedStats = [];
+  
+  for (const downloader of downloaders) {
+    try {
+      if (downloader.connected) {
+        const stats = await this.getClientStats(downloader);
+        speedStats.push({
+          id: downloader.id,
+          name: downloader.name,
+          downloadSpeed: stats.dlspeed || 0,
+          uploadSpeed: stats.upspeed || 0
+        });
+      }
+    } catch (error) {
+      console.error(`获取下载器 ${downloader.name} 速度失败:`, error);
+    }
+  }
+  
+  return speedStats;
+}
+
+async getTotalSpeed() {
+  const stats = await this.getAllSpeedStats();
+  
+  return stats.reduce((total, stat) => {
+    total.downloadSpeed += stat.downloadSpeed;
+    total.uploadSpeed += stat.uploadSpeed;
+    return total;
+  }, { downloadSpeed: 0, uploadSpeed: 0 });
+}
+
+
+
+
+
+
+
+// app/service/downloader.js
+// app/service/downloader.js
+// app/service/downloader.js
+// app/service/downloader.js
+// app/service/downloader.js
+// app/service/downloader.js
+
+async getAllSpeedStats() {
+  const downloaders = await this.getAll();
+  const speedStats = [];
+  
+  for (const downloader of downloaders) {
+    try {
+      if (downloader.connected) {
+        const stats = await this.getClientStats(downloader);
+        speedStats.push({
+          id: downloader.id,
+          name: downloader.name,
+          downloadSpeed: stats.dlspeed || 0,
+          uploadSpeed: stats.upspeed || 0
+        });
+      }
+    } catch (error) {
+      console.error(`获取下载器 ${downloader.name} 速度失败:`, error);
+    }
+  }
+  
+  return speedStats;
+}
+
+async getTotalSpeed() {
+  const stats = await this.getAllSpeedStats();
+  
+  return stats.reduce((total, stat) => {
+    total.downloadSpeed += stat.downloadSpeed;
+    total.uploadSpeed += stat.uploadSpeed;
+    return total;
+  }, { downloadSpeed: 0, uploadSpeed: 0 });
+}
 module.exports = Client;
